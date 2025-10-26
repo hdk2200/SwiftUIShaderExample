@@ -11,6 +11,7 @@ struct ContentView: View {
     case gradient2 = "Gradient 2"
     case crosshair = "Crosshair SDF"
     case raymarch1 = "RayMarching 01"
+    case raymarch2 = "RayMarching 02"
     var id: String { rawValue }
   }
 
@@ -58,6 +59,11 @@ struct ContentView: View {
                   )
                 case .raymarch1:
                   return ShaderLibrary.rayMarching01(
+                    .float(animatedTime),
+                    .float2(Float(proxy.size.width), Float(proxy.size.height))
+                  )
+                case .raymarch2:
+                  return ShaderLibrary.rayMarching02(
                     .float(animatedTime),
                     .float2(Float(proxy.size.width), Float(proxy.size.height))
                   )
@@ -126,6 +132,13 @@ struct ContentView: View {
                 }
               }
             case .raymarch1:
+              VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                  Text("Speed")
+                  Slider(value: $speed, in: 0...2)
+                }
+              }
+            case .raymarch2:
               VStack(alignment: .leading, spacing: 8) {
                 HStack {
                   Text("Speed")
