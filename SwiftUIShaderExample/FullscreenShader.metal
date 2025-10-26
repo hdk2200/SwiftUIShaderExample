@@ -1,4 +1,5 @@
 #include <metal_stdlib>
+#include <SwiftUI/SwiftUI_Metal.h>
 using namespace metal;
 
 // SwiftUI's shader entry point signature for layerEffect/imageEffect
@@ -27,35 +28,55 @@ float sdCircle(float2 p, float r) {
 // Naming convention: ShaderLibrary.<name> in Swift is mapped by filename-scope.
 [[ stitchable ]] half4 fullscreenGradient(
     float2 position,              // destination pixel position
-    half4 color                  // destination base color (unused)
+//    half4 color,                   //destination base color (unused)
+    SwiftUI::Layer layer,
+    float time
+//    float hue,
+//    float intensity
 ) {
-    // Read parameters provided by SwiftUI in the order they were passed.
-    // stitchable functions can access them via `float paramN()` builtins,
-    // but here we use the new parameter() accessors by index.
-    float time      = parameter(0);
-    float hue       = parameter(1);
-    float intensity = parameter(2);
+    // Simplified: always output solid red, ignore all inputs.
+    // This helps verify the shader pipeline is wired correctly.
+    // If you want to restore the animated gradient, revert this block.
+//    (void)position; (void)color; (void)time; (void)hue; (void)intensity; // silence unused warnings
+//    return half4(1.0, 0.0, 0.0, 1.0);
+//  return half4(1.0, 0.0, 0.0, 1.0);
 
-    // Normalize coordinates to [-1, 1] with aspect correction assumed square-ish.
-    float2 uv = position;
-    // Scale down to create a repeating pattern
-    float2 p = (uv / 200.0); // adjust scale for effect size
+//  float r = abs(sin(time) * 254.0);
+  float r =  0;
+  float g =  abs(cos(time)) * 0.5;
+  float b =  0;
 
-    // Animated field using sin/cos and time
-    float v = 0.5 + 0.5 * sin(p.x * 3.1 + time) * cos(p.y * 2.7 - time * 1.3);
-    v = mix(0.0, 1.0, pow(clamp(v, 0.0, 1.0), 1.5));
+//  float g = abs(cos(time)  * 1.0);
+//  float b = abs(tan(time ) / 1.0);
+  return half4(r, g, b, 1.0);
 
-    // Modulate hue over time slightly
-    float h = fract(hue + 0.1 * sin(time * 0.2));
-    float s = clamp(intensity, 0.0, 1.0);
-    float l = mix(0.2, 1.0, v);
+}
 
-    float3 rgb = hsv2rgb(float3(h, s, l));
 
-    // Optional soft vignette using distance from center
-    float2 centered = (uv - float2(512.0, 512.0)) / 512.0; // assume ~1024 canvas; robust enough for demo
-    float d = sdCircle(centered, 0.95);
-    float vignette = smoothstep(1.2, 0.0, d);
+// Main shader function for SwiftUI layerEffect
+// Naming convention: ShaderLibrary.<name> in Swift is mapped by filename-scope.
+[[ stitchable ]] half4 fullscreenGradient2(
+    float2 position,              // destination pixel position
+//    half4 color,                   //destination base color (unused)
+    SwiftUI::Layer layer,
+    float time
+//    float hue,
+//    float intensity
+) {
+    // Simplified: always output solid red, ignore all inputs.
+    // This helps verify the shader pipeline is wired correctly.
+    // If you want to restore the animated gradient, revert this block.
+//    (void)position; (void)color; (void)time; (void)hue; (void)intensity; // silence unused warnings
+//    return half4(1.0, 0.0, 0.0, 1.0);
+//  return half4(1.0, 0.0, 0.0, 1.0);
 
-    return half4(half3(rgb) * half(vignette), 1.0);
+//  float r = abs(sin(time) * 254.0);
+  float r =  abs(sin(time)) * 1.0;
+  float g =  abs(cos(time)) * 1.0;
+  float b =  abs(cos(time)) * 1.0;
+
+//  float g = abs(cos(time)  * 1.0);
+//  float b = abs(tan(time ) / 1.0);
+  return half4(r, g, b, 1.0);
+
 }
