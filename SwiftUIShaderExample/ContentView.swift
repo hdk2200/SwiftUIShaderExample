@@ -12,6 +12,8 @@ struct ContentView: View {
     case crosshair = "Crosshair SDF"
     case raymarch1 = "RayMarching 01"
     case raymarch2 = "RayMarching 02"
+    case raymarch3 = "RayMarching 03"
+    case raymarch4 = "RayMarching 04"
     var id: String { rawValue }
   }
 
@@ -67,6 +69,16 @@ struct ContentView: View {
                     .float(animatedTime),
                     .float2(Float(proxy.size.width), Float(proxy.size.height))
                   )
+                case .raymarch3:
+                  return ShaderLibrary.rayMarching03(
+                    .float(animatedTime),
+                    .float2(Float(proxy.size.width), Float(proxy.size.height))
+                  )
+                case .raymarch4:
+                  return ShaderLibrary.rayMarching04(
+                    .float(animatedTime),
+                    .float2(Float(proxy.size.width), Float(proxy.size.height))
+                  )
                 }
               }(),
               maxSampleOffset: .zero
@@ -95,13 +107,6 @@ struct ContentView: View {
           }
           .padding(.bottom, 8)
 
-          // Shader selector (segmented for clarity)
-          Picker("Shader", selection: $selectedShader) {
-            ForEach(ShaderType.allCases) { shader in
-              Text(shader.rawValue).tag(shader)
-            }
-          }
-          .pickerStyle(.segmented)
 
           // Per-shader controls
           Group {
@@ -145,8 +150,30 @@ struct ContentView: View {
                   Slider(value: $speed, in: 0...2)
                 }
               }
+            case .raymarch3:
+              VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                  Text("Speed")
+                  Slider(value: $speed, in: 0...2)
+                }
+              }
+            case .raymarch4:
+              VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                  Text("Speed")
+                  Slider(value: $speed, in: 0...2)
+                }
+              }
             }
           }
+
+          // Shader selector (segmented for clarity)
+          Picker("Shader", selection: $selectedShader) {
+            ForEach(ShaderType.allCases) { shader in
+              Text(shader.rawValue).tag(shader)
+            }
+          }
+          .pickerStyle(.segmented)
 
           //                        HStack {
           //                            Text("\(animatedTime)")
@@ -208,3 +235,4 @@ struct ContentView: View {
 #Preview {
   ContentView()
 }
+
