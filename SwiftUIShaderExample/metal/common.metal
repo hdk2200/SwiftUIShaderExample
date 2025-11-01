@@ -68,3 +68,9 @@ static inline float sdBox(float3 p, float3 b)
     float3 d = abs(p) - b;
     return length(max(d, 0.0)) + min(max(d.x, max(d.y, d.z)), 0.0);
 }
+
+/// `p` 位置にあるオブジェクト（繰り返しボックス）の距離を返す。
+static float distance(float3 p)
+{
+  return sdBox(trans(p - float3(0), 1), float3(0.1, 0.1, 0.1));
+}

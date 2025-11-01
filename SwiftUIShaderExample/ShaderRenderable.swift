@@ -87,7 +87,7 @@ struct RayMarchShader1: ShaderRenderable {
     let name = "RayMarching 01"
     
     func makeShader(time: Double, size: CGSize) -> Shader {
-//      print("make shader [\(name)]")
+      print("make shader [\(name)] \(time) \(size)")
       return
         ShaderLibrary.rayMarching01(
             .float(Float(time)),
@@ -114,7 +114,7 @@ struct RayMarchShader2: ShaderRenderable {
     let name = "RayMarching 02"
     
     func makeShader(time: Double, size: CGSize) -> Shader {
-//      print("make shader [\(name)]")
+      print("make shader [\(name)] \(time) \(size)")
       return
         ShaderLibrary.rayMarching02(
             .float(Float(time)),

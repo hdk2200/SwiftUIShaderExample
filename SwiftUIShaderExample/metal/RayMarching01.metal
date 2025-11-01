@@ -4,23 +4,16 @@
 #include "common.metal"
 using namespace metal;
 
-float sceneDistance01(float3 p)
+// 法線を求める。
+/// ボックス形状の法線をSDFの勾配を利用して求める。
+float3 sdBoxNormal(float3 p)
 {
-    float sph = sphareDistance(p, float3(0.0,0.0,0.0), 1.0, 1.0);
-    float box = sdBox(p - float3(1.5, 0, 0), float3(0.5, 0.5, 0.5));
-    return min(sph, box);
-}
+  float d = 0.001;
 
-float3 estimateNormal01(float3 p)
-{
-    float e = 0.001;
-    float3 ex = float3(e,0,0);
-    float3 ey = float3(0,e,0);
-    float3 ez = float3(0,0,e);
-    float dx = sceneDistance01(p + ex) - sceneDistance01(p - ex);
-    float dy = sceneDistance01(p + ey) - sceneDistance01(p - ey);
-    float dz = sceneDistance01(p + ez) - sceneDistance01(p - ez);
-    return normalize(float3(dx, dy, dz));
+  return normalize(float3(
+      distance(p + float3(d, 0.0, 0.0)) - distance(p + float3(-d, 0.0, 0.0)),
+      distance(p + float3(0.0, d, 0.0)) - distance(p + float3(0.0, -d, 0.0)),
+      distance(p + float3(0.0, 0.0, d)) - distance(p + float3(0.0, 0.0, -d))));
 }
 
 [[ stitchable ]] half4 rayMarching01(
@@ -29,38 +22,62 @@ float3 estimateNormal01(float3 p)
     float time,
     float2 viewportSize
 ) {
-    // Convert position (in pixels) to normalized device-like coordinates
-    float2 resolution = viewportSize;
-    float2 fragCoord = position; // position is already in pixel space
+  // 球の半径（ここでは固定値で使用）
+  float radius = 0.1;
 
-    float2 p = (fragCoord - 0.5 * resolution) / resolution.y;
-    float3 ro = float3(0.0, 0.0, 5.0);
-    float3 rd = normalize(float3(p.x, p.y, -1.0));
+  // 球の中心位置（未使用だが残っている）
+  float3 spharePos = float3(0.0);
 
-    float totalDistance = 0.0;
-    float3 pos;
-    float dist;
+  // -1.0 ~ 1.0 に正規化されたスクリーン座標を計算
+  float2 pos = (position.xy * 2.0 - viewportSize) / min(viewportSize.x, viewportSize.y);
 
-    const int MAX_STEPS = 100;
-    const float MAX_DISTANCE = 100.0;
-    const float SURFACE_DIST = 0.001;
+  // カメラの初期位置（Z方向に奥に配置）
+  float3 cameraPos = float3(0.0, .0, 5.0);
 
-    for (int i = 0; i < MAX_STEPS; i++) {
-        pos = ro + totalDistance * rd;
-        dist = sceneDistance01(pos);
-        if (dist < SURFACE_DIST || totalDistance > MAX_DISTANCE) break;
-        totalDistance += dist;
+  // スクリーン上のZ位置（基本的に0）
+  float zPos = 0.0;
+
+  // レイの方向ベクトルを正規化して生成
+  float3 ray = normalize(float3(pos, zPos) - cameraPos);
+
+  // 光の方向ベクトル（Z方向から）
+  float3 lightDir = normalize(float3(0.0, 0.0, 1.0));
+
+  // レイの進行距離初期化
+  float depth = 0.05;
+
+  // ベースカラーと初期カラー設定
+  float3 baseColor = float3(0.8, 0.8 * sin(time), 0.9);
+  float3 color = float3(0.0);
+
+  // 時間に応じて繰り返し配置の間隔を変化させる（最低0.5、最大10.0）
+  float m = clamp(10.0 * cos(time), 0.5, 10.0);
+
+  // 最大ステップ数でループ（Ray Marching）
+  for (int i = 0; i < 128; i++) {
+    // 現在のレイの位置を計算
+    float3 rayPos = cameraPos + ray * depth;
+
+    // その位置とオブジェクト（繰り返しボックス）との距離を取得
+    float dist = distance(rayPos);
+
+    // しきい値以下なら衝突とみなす
+    if (dist < 0.001) {
+      // 衝突面の法線を取得
+      float3 normal = sdBoxNormal(cameraPos);
+
+      // 法線と光の方向の内積からディフューズライティングを計算
+      float differ = dot(normal, lightDir);
+
+      // カラーを光とベースカラーで調整
+      color = clamp(float3(differ) * baseColor, 0.01, 1.0);
+      break;
     }
 
-    if (totalDistance > MAX_DISTANCE) {
-        return half4(0.0h, 0.0h, 0.0h, 1.0h);
-    }
+    // 衝突しなければ、レイをさらに進める
+    cameraPos += ray * dist;
+  }
 
-    float3 normal = estimateNormal01(pos);
-
-    float3 lightDir = normalize(float3(0.5, 1.0, 0.8));
-    float diff = clamp(dot(normal, lightDir), 0.0, 1.0);
-    float3 color = diff * float3(1.0, 0.7, 0.3);
-
-    return half4(half(color.r), half(color.g), half(color.b), 1.0h);
+  // フラグメントカラーとして返す（アルファは1.0）
+  return half4(half3(color), 1.0);
 }

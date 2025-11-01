@@ -6,7 +6,7 @@
 import SwiftUI
 
 struct ContentView: View {
-  @State private var selectedShader: any ShaderRenderable = Gradient1Shader()
+  @State private var selectedShader: any ShaderRenderable = RayMarchShader1()
 
   private let shaders: [any ShaderRenderable] = [
     Gradient1Shader(),
@@ -23,7 +23,7 @@ struct ContentView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
 
       Divider()
-
+      
       // Grid selection for shaders
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 8) {
