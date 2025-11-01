@@ -37,12 +37,8 @@ static inline float3 estimateNormal03(float3 p)
 
     // Camera: mimic legacy shaderSampleRayMarching03 behavior
     float3 ro = float3(0.0, 1.0, 5.0); // base position (approx for userpt)
-    if (time > 20.0) {
-        ro.x += sin(time - 20.0) * 0.9;
-        if (time > 30.0) {
-            ro.z += sin(time - 30.0) * 1.0;
-        }
-    }
+    ro.x += sin(time ) * 0.9;
+    ro.z += sin(time) * 1.0;
 
     // Look-at construction
     float3 target = float3(0.0, 0.0, 0.0);

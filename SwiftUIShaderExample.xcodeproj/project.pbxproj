@@ -37,9 +37,9 @@
 		209529012EADD93100D9E9F6 = {
 			isa = PBXGroup;
 			children = (
-				2095290C2EADD93100D9E9F6 /* SwiftUIShaderExample */,
-				2095290B2EADD93100D9E9F6 /* Products */,
 				209529222EADFD6C00D9E9F6 /* project.xcconfig */,
+				2095290B2EADD93100D9E9F6 /* Products */,
+				2095290C2EADD93100D9E9F6 /* SwiftUIShaderExample */,
 			);
 			sourceTree = "<group>";
 		};
