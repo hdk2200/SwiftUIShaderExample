@@ -5,6 +5,18 @@
 using namespace metal;
 
 // 法線を求める。
+float3 sphareNormal(float3 p, float3 center, float radius, float m)
+{
+  float d = 0.001;
+
+  return normalize(float3(
+      sphareDistance(p + float3(d, 0.0, 0.0), center, radius, m) - sphareDistance(p + float3(-d, 0.0, 0.0), center, radius, m),
+      sphareDistance(p + float3(0.0, d, 0.0), center, radius, m) - sphareDistance(p + float3(0.0, -d, 0.0), center, radius, m),
+      sphareDistance(p + float3(0.0, 0.0, d), center, radius, m) - sphareDistance(p + float3(0.0, 0.0, -d), center, radius, m)));
+}
+
+
+
 /// ボックス形状の法線をSDFの勾配を利用して求める。
 float3 sdBoxNormal(float3 p)
 {
@@ -15,6 +27,14 @@ float3 sdBoxNormal(float3 p)
       distance(p + float3(0.0, d, 0.0)) - distance(p + float3(0.0, -d, 0.0)),
       distance(p + float3(0.0, 0.0, d)) - distance(p + float3(0.0, 0.0, -d))));
 }
+
+/// `p` 位置にあるオブジェクト（繰り返しボックス）の距離を返す。
+static float distance01(float3 p)
+{
+//  return sdBox(trans(p - float3(0), 1), float3(0.1, 0.1, 0.1));
+  return sphareDistance(trans(p - float3(0), 1), float3(0.1, 0.1, 0.1), 0.6 , 1.0);
+}
+
 
 [[ stitchable ]] half4 rayMarching01(
     float2 position,
@@ -41,14 +61,15 @@ float3 sdBoxNormal(float3 p)
   float3 ray = normalize(float3(pos, zPos) - cameraPos);
 
   // 光の方向ベクトル（Z方向から）
-  float3 lightDir = normalize(float3(0.0, 0.0, 1.0));
+  float3 lightDir = normalize(float3(1.0, -1.0, 1.0));
 
   // レイの進行距離初期化
   float depth = 0.05;
 
   // ベースカラーと初期カラー設定
-  float3 baseColor = float3(0.8, 0.8 * sin(time), 0.9);
-  float3 color = float3(0.0);
+  float colorelement = 0.5 * sin(time) + 0.5;
+  float3 baseColor = float3(colorelement, colorelement, colorelement);
+  float3 color = float3(0.1);
 
   // 時間に応じて繰り返し配置の間隔を変化させる（最低0.5、最大10.0）
   float m = clamp(10.0 * cos(time), 0.5, 10.0);
@@ -58,19 +79,21 @@ float3 sdBoxNormal(float3 p)
     // 現在のレイの位置を計算
     float3 rayPos = cameraPos + ray * depth;
 
-    // その位置とオブジェクト（繰り返しボックス）との距離を取得
-    float dist = distance(rayPos);
+    // その位置とオブジェクトとの距離を取得
+    float dist = distance01(rayPos);
 
     // しきい値以下なら衝突とみなす
     if (dist < 0.001) {
       // 衝突面の法線を取得
-      float3 normal = sdBoxNormal(cameraPos);
+//      float3 normal = sdBoxNormal(cameraPos);
+      
+      float3 normal = sphareNormal( rayPos, float3(0,0,0),0.5,1.0 );
 
       // 法線と光の方向の内積からディフューズライティングを計算
       float differ = dot(normal, lightDir);
 
       // カラーを光とベースカラーで調整
-      color = clamp(float3(differ) * baseColor, 0.01, 1.0);
+      color = clamp(float3(differ) * baseColor, 0.1, 1.0);
       break;
     }
 

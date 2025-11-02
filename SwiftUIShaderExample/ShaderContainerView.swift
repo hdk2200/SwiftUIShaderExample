@@ -62,7 +62,14 @@ struct ShaderContainerView: View {
           .overlay(alignment: .bottomTrailing) {
             Menu {
               Button(action: {
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.9)) {
+                withAnimation(.spring(response: 0.1, dampingFraction: 0.9)) {
+                  showControls = true
+                }
+              }) {
+                Label("Show Controls", systemImage: "slider.horizontal.3")
+              }
+              Button(action: {
+                withAnimation(.spring(response: 0.1, dampingFraction: 0.9)) {
                   showControls = true
                 }
               }) {
@@ -80,6 +87,7 @@ struct ShaderContainerView: View {
           .transition(.move(edge: .bottom).combined(with: .opacity))
       }
     }
+    .ignoresSafeArea()
     .onAppear {
       withAnimation(.spring(response: 0.5, dampingFraction: 0.9, blendDuration: 0.2)) {
         showControls = true
