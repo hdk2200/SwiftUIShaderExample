@@ -9,7 +9,7 @@ import SwiftUI
 struct SwiftUIShaderExampleApp: App {
     var body: some Scene {
         WindowGroup {
-            SwiftUIModifierSampleView()
+            MainMenuView()
         }
     }
 }
