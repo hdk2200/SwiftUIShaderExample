@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct SwiftUIModifierSampleView: View {
   @State private var selectedShader: any ShaderRenderable = RayMarchShader1()
 
   private let shaders: [any ShaderRenderable] = [
@@ -65,5 +65,5 @@ struct ContentView: View {
 }
 
 #Preview {
-  ContentView()
+  SwiftUIModifierSampleView()
 }
