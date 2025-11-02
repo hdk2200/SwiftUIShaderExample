@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "209529092EADD93100D9E9F6"
-               BuildableName = "SwiftUIShaderExample.app"
-               BlueprintName = "SwiftUIShaderExample"
-               ReferencedContainer = "container:SwiftUIShaderExample.xcodeproj">
+               BuildableName = "SwiftUIShaderLayerEffectExample.app"
+               BlueprintName = "SwiftUIShaderLayerEffectExample"
+               ReferencedContainer = "container:SwiftUIShaderLayerEffectExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "209529092EADD93100D9E9F6"
-            BuildableName = "SwiftUIShaderExample.app"
-            BlueprintName = "SwiftUIShaderExample"
-            ReferencedContainer = "container:SwiftUIShaderExample.xcodeproj">
+            BuildableName = "SwiftUIShaderLayerEffectExample.app"
+            BlueprintName = "SwiftUIShaderLayerEffectExample"
+            ReferencedContainer = "container:SwiftUIShaderLayerEffectExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -64,9 +64,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "209529092EADD93100D9E9F6"
-            BuildableName = "SwiftUIShaderExample.app"
-            BlueprintName = "SwiftUIShaderExample"
-            ReferencedContainer = "container:SwiftUIShaderExample.xcodeproj">
+            BuildableName = "SwiftUIShaderLayerEffectExample.app"
+            BlueprintName = "SwiftUIShaderLayerEffectExample"
+            ReferencedContainer = "container:SwiftUIShaderLayerEffectExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

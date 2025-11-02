@@ -11,7 +11,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2095290A2EADD93100D9E9F6 /* SwiftUIShaderExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIShaderExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2095290A2EADD93100D9E9F6 /* SwiftUIShaderLayerEffectExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIShaderLayerEffectExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		209529222EADFD6C00D9E9F6 /* project.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = project.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -46,7 +46,7 @@
 		2095290B2EADD93100D9E9F6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2095290A2EADD93100D9E9F6 /* SwiftUIShaderExample.app */,
+				2095290A2EADD93100D9E9F6 /* SwiftUIShaderLayerEffectExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -54,9 +54,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		209529092EADD93100D9E9F6 /* SwiftUIShaderExample */ = {
+		209529092EADD93100D9E9F6 /* SwiftUIShaderLayerEffectExample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 209529152EADD93200D9E9F6 /* Build configuration list for PBXNativeTarget "SwiftUIShaderExample" */;
+			buildConfigurationList = 209529152EADD93200D9E9F6 /* Build configuration list for PBXNativeTarget "SwiftUIShaderLayerEffectExample" */;
 			buildPhases = (
 				209529062EADD93100D9E9F6 /* Sources */,
 				209529072EADD93100D9E9F6 /* Frameworks */,
@@ -69,11 +69,11 @@
 			fileSystemSynchronizedGroups = (
 				2095290C2EADD93100D9E9F6 /* SwiftUIShaderExample */,
 			);
-			name = SwiftUIShaderExample;
+			name = SwiftUIShaderLayerEffectExample;
 			packageProductDependencies = (
 			);
 			productName = SwiftUIShaderExample;
-			productReference = 2095290A2EADD93100D9E9F6 /* SwiftUIShaderExample.app */;
+			productReference = 2095290A2EADD93100D9E9F6 /* SwiftUIShaderLayerEffectExample.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -91,7 +91,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 209529052EADD93100D9E9F6 /* Build configuration list for PBXProject "SwiftUIShaderExample" */;
+			buildConfigurationList = 209529052EADD93100D9E9F6 /* Build configuration list for PBXProject "SwiftUIShaderLayerEffectExample" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -105,7 +105,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				209529092EADD93100D9E9F6 /* SwiftUIShaderExample */,
+				209529092EADD93100D9E9F6 /* SwiftUIShaderLayerEffectExample */,
 			);
 		};
 /* End PBXProject section */
@@ -326,7 +326,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		209529052EADD93100D9E9F6 /* Build configuration list for PBXProject "SwiftUIShaderExample" */ = {
+		209529052EADD93100D9E9F6 /* Build configuration list for PBXProject "SwiftUIShaderLayerEffectExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				209529132EADD93200D9E9F6 /* Debug */,
@@ -335,7 +335,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		209529152EADD93200D9E9F6 /* Build configuration list for PBXNativeTarget "SwiftUIShaderExample" */ = {
+		209529152EADD93200D9E9F6 /* Build configuration list for PBXNativeTarget "SwiftUIShaderLayerEffectExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				209529162EADD93200D9E9F6 /* Debug */,
