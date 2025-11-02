@@ -1,1 +1,3 @@
-# SwiftUIShaderExample
+# SwiftUIShaderLayerEffectExample
+
+modifier .layerEffect test.
